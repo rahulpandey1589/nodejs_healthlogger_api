@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add FirstName"],
     maxlength: [50, "First Name should not be greater than 50"],
-    trim: true
+    trim: true,
   },
   last_name: {
     type: String,
