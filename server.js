@@ -8,6 +8,8 @@ dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 const users = require('./routes/user-route');
+const categoryroute = require('./routes/category-route');
+
 const errorHandler = require("./middleware/error");
 
 const app = express();
@@ -18,6 +20,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/v1/users",users);
+app.use("/api/v1/category",categoryroute);
+
 
 app.use(errorHandler);
 
