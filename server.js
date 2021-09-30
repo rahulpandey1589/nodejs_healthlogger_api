@@ -7,12 +7,16 @@ dotenv.config({ path: "./config/config.env" });
 
 connectDB();
 
+const users = require('./routes/user-route');
+
 const app = express();
 app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+app.use("/api/v1/users",users);
 
 const PORT = process.env.PORT || 5000;
 
