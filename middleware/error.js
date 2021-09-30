@@ -1,11 +1,20 @@
-const errorHandler = (err, req,res,next) =>{
+const ErrorResponse = require("../utils/errorResponse");
 
-    console.log(err);
+const errorHandler = (err, req, res, next) => {
+  let error = { ...err };
+  error.message = err.message;
 
-    res.status(err.statusCode || 500).json({
-        success:false,
-        message:err.message || 'Server Error!!!'
-    });
-}
+  console.log(error);
+
+  // Mongoose Duplicate Key Error
+  if (err.code === 11000) {
+    const message = "Duplicate feild value entered";
+    error = new ErrorResponse(message, 400);
+  }
+  res.status(error.statusCode || 500).json({
+    success: false,
+    message: error.message || "Server Error!!!",
+  });
+};
 
 module.exports = errorHandler;
