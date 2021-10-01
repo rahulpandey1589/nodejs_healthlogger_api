@@ -1,5 +1,5 @@
 const express = require("express");
-const { protect, authorize } = require("../middleware/guard-middleware");
+const { protect, authorize } = require("../middleware/route-guard-middleware");
 
 const router = express.Router();
 
