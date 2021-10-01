@@ -7,8 +7,9 @@ dotenv.config({ path: "./config/config.env" });
 
 connectDB();
 
-const users = require('./routes/user-route');
-const categoryroute = require('./routes/category-route');
+const auth_route = require('./routes/auth-route');
+const user_route = require('./routes/user-route');
+const category_route = require('./routes/category-route');
 
 const errorHandler = require("./middleware/error");
 
@@ -19,8 +20,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use("/api/v1/users",users);
-app.use("/api/v1/category",categoryroute);
+app.use("/api/v1/auth",auth_route);
+app.use("/api/v1/users",user_route);
+app.use("/api/v1/category",category_route);
 
 
 app.use(errorHandler);

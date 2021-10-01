@@ -25,7 +25,14 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please enter password"],
     maxlength: [15, "Password should not be more than 15 characters"],
     minlength: [8, "Password should be atleast 8 chracters long"],
+    select:false
   },
+  resetPasswordToken:String,
+  resetPasswordExpire:Date,
+  createdAt:{
+    type:Date,
+    default:Date.now
+  }
 });
 
 module.exports = mongoose.model("User", UserSchema);
