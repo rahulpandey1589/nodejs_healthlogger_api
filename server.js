@@ -11,6 +11,8 @@ connectDB();
 const auth_route = require('./routes/auth-route');
 const user_route = require('./routes/user-route');
 const category_route = require('./routes/category-route');
+const test_route = require('./routes/test-route');
+
 
 const errorHandler = require("./middleware/error");
 
@@ -33,6 +35,8 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/auth",auth_route);
 app.use("/api/v1/users",user_route);
 app.use("/api/v1/masters/category",category_route);
+app.use("/api/v1/masters/test",test_route);
+
 
 
 app.use(errorHandler);
