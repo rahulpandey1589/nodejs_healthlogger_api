@@ -38,8 +38,10 @@ exports.getCategoryById = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteCategoryById = asyncHandler(async (req, res, next) => {
+  let categoryId = req.params.id;
+  let deleteCategory = await CategoryModel.findByIdAndDelete(categoryId);
   res.status(200).json({
     success: true,
-    message: "Category Added",
+    message: "Category Deleted",
   });
 });

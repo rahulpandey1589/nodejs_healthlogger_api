@@ -7,7 +7,7 @@ const {
   addCategory,
   deleteCategoryById,
   getAllCategory,
-  getCategoryById,
+  getCategoryById
 } = require("../controller/category-controller");
 
 router
