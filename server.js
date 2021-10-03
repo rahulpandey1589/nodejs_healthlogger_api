@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require('dotenv');
 const morgan = require("morgan");
 const connectDB = require("./config/db");
+const cors  = require('cors');
 
 dotenv.config({ path: "./config/config.env" });
 
@@ -13,8 +14,17 @@ const category_route = require('./routes/category-route');
 
 const errorHandler = require("./middleware/error");
 
+// USING express
 const app = express();
 app.use(express.json());
+
+// configuring CORS options
+var corsOptions ={
+  origin:'http://localhost:3000',
+  optionsSuccessStatus:200
+}
+
+app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -22,7 +32,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/api/v1/auth",auth_route);
 app.use("/api/v1/users",user_route);
-app.use("/api/v1/category",category_route);
+app.use("/api/v1/masters/category",category_route);
 
 
 app.use(errorHandler);

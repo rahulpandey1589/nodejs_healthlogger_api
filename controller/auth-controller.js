@@ -22,7 +22,8 @@ exports.authenticate = asyncHandler(async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "User Authenticated!!!",
-        token:token
+        token:token,
+        expiresIn: 3600
       });
     }
   }
