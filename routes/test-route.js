@@ -1,10 +1,15 @@
 const express = require("express");
-
 const router = express.Router();
 
-const { addTest } = require("../controller/testmaster-controller");
 const { protect } = require("../middleware/route-guard-middleware");
 
-router.route("/").post(protect, addTest);
+const { 
+addTest, 
+findAll 
+} = require("../controller/testmaster-controller");
+
+router.route("/")
+.post(protect, addTest)
+.get(protect, findAll);
 
 module.exports = router;
