@@ -8,14 +8,14 @@ const TestSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [5, "Title should be of minimum of 5 characters"],
-    maxlength: [30, "Title should be of minimum of 15 characters"],
+    maxlength: [30, "Title should be of minimum of 30 characters"],
     unique: true,
   },
   description: {
     type: String,
     required: true,
-    minlength: [5, "Title should be of minimum of 5 characters"],
-    maxlength: [200, "Title should be of minimum of 15 characters"],
+    minlength: [5, "Description should be of minimum of 5 characters"],
+    maxlength: [200, "Description should be of minimum of 200 characters"],
   },
   price: {
     type: Number,
@@ -29,8 +29,7 @@ const TestSchema = new mongoose.Schema({
 });
 
 TestSchema.statics.validateCategoryDetails = asyncHandler(async function (categoryId) {
-  let categoryDetails = await CategorySchema.findById(categoryId);
-  return categoryDetails;
+  return await CategorySchema.findById(categoryId);
 });
 
 module.exports = mongoose.model("Test", TestSchema);
