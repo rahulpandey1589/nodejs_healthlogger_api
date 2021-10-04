@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { protect } = require("../middleware/route-guard-middleware");
+const { protect, authorize } = require("../middleware/route-guard-middleware");
 
 const {
   addTest,
@@ -16,7 +16,7 @@ router
   .post(protect, addTest)
   .get(protect, findAll)
   .put(protect, updateTest)
-  .delete(protect, deleteById);
+  .delete(protect, authorize('admin'), deleteById);
 
 router.route("/:id").get(protect, findById);
 
