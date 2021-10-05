@@ -24,4 +24,12 @@ const CategorySchema = new mongoose.Schema({
   },
 });
 
+CategorySchema.statics.findCategory = async function (categoryId) {
+  return this.findById({ _id: categoryId }).select({
+    category_name: 1,
+    description: 1,
+    isactive: 1,
+  });
+};
+
 module.exports = mongoose.model("Category", CategorySchema);
