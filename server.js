@@ -18,7 +18,8 @@ const errorHandler = require("./middleware/error");
 
 // USING express
 const app = express();
-app.use(express.json());
+app.use(express.json()); // To parse the incoming requests with JSON payloads
+app.use(express.urlencoded({ extended: true })); // parsing query parameters mentioned in URL
 
 // configuring CORS options
 var corsOptions ={
