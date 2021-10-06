@@ -1,15 +1,12 @@
 const UserModel = require("../models/user");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
-const { body,validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 exports.authenticate = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
   let user = await UserModel.findOne({ username }).select("password");
-  if (!user) {
-    return next(new ErrorResponse("Invalid Credentials", 404));
-  }
   const isMatch = await user.matchPassword(password);
   if (!isMatch) {
     return next(new ErrorResponse("Invalid Credentials", 404));
@@ -27,7 +24,6 @@ exports.authenticate = asyncHandler(async (req, res, next) => {
 });
 
 exports.register = asyncHandler(async (req, res, next) => {
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -60,7 +56,14 @@ const valideUserName = () => {
     .exists()
     .withMessage("UserName is mandatory")
     .isEmail()
-    .withMessage("Username must have a valid email address.");
+    .withMessage("Username must have a valid email address.")
+    .custom((value) => {
+      return UserModel.find({username:value}).then(function (user) {
+        if(user){
+          return Promise.reject("The provided email address is already in use.");
+        }
+      });
+    });
 };
 
 const validateFirstName = () => {
