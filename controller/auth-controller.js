@@ -4,6 +4,12 @@ const asyncHandler = require("../middleware/asyncHandler");
 const { body, validationResult } = require("express-validator");
 
 exports.authenticate = asyncHandler(async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
   const { username, password } = req.body;
 
   let user = await UserModel.findOne({ username }).select("password");
@@ -42,25 +48,41 @@ exports.validate = (method) => {
   switch (method) {
     case "register": {
       return [
-        valideUserName(),
+        valideUserName(true),
         validateFirstName(),
         validateLastName(),
         validatePassword(),
       ];
     }
+    case "authenticate": {
+      return [
+        valideUserName(false)
+      ]
+    }
   }
 };
 
-const valideUserName = () => {
+const valideUserName = (registerNew) => {
   return body("username")
     .exists()
     .withMessage("UserName is mandatory")
     .isEmail()
-    .withMessage("Username must have a valid email address.")
+    .withMessage(`Username must have a valid email address.`)
     .custom((value) => {
-      return UserModel.find({username:value}).then(function (user) {
-        if(user){
-          return Promise.reject("The provided email address is already in use.");
+      return UserModel.find({ username: value }).then(function (user) {
+        if (registerNew) {
+          if (user) {
+            return Promise.reject(
+              "The provided email address is already in use."
+            );
+          }
+        }
+        else{
+          if (user.length === 0) {
+            return Promise.reject(
+              `The supplied email address doesn't exists in our DB`
+            );
+          }
         }
       });
     });

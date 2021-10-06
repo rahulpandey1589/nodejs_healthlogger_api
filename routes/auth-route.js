@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { authenticate, register,validate } = require("../controller/auth-controller");
 
-router.route("/authenticate").post(authenticate);
+router.route("/authenticate").post(validate('authenticate'),authenticate);
 
 router.route("/register").post(validate('register'),register);
 
