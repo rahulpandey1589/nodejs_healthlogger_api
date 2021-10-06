@@ -71,7 +71,8 @@ const valideUserName = (registerNew) => {
     .custom((value) => {
       return UserModel.find({ username: value }).then(function (user) {
         if (registerNew) {
-          if (user) {
+          console.log(user);
+          if (user.length > 0) {
             return Promise.reject(
               "The provided email address is already in use."
             );

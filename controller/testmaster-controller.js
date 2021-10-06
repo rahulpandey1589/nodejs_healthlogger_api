@@ -6,12 +6,12 @@ const asyncHandler = require("../middleware/asyncHandler");
 exports.addTest = asyncHandler(async (req, res, next) => {
   const { title, description, price, categoryId } = req.body;
 
-  // let data = await TestModel.validateCategoryDetails(categoryId);
-  // console.log(data);
-  // if (!data) {
-  //   next(new ErrorResponse(`Category data not found`, 404));
-  //   return;
-  // }
+  let data = await TestModel.validateCategoryDetails(categoryId);
+  console.log(data);
+  if (!data) {
+    next(new ErrorResponse(`Category data not found`, 404));
+    return;
+  }
 
   let testModel = await TestModel.create({
     title: title,

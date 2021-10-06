@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const CategorySchema = require("./category");
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require("../middleware/asyncHandler");
@@ -25,11 +26,11 @@ const TestSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  categoryId: String,
+  categoryId: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
 });
 
 TestSchema.statics.validateCategoryDetails = asyncHandler(async function (categoryId) {
-  return await CategorySchema.findById(categoryId);
+  return await CategorySchema.find({_id:categoryId});
 });
 
 module.exports = mongoose.model("Test", TestSchema);
