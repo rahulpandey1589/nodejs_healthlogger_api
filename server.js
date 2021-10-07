@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true })); // parsing query parameters men
 // configuring CORS options
 var corsOptions ={
   origin:'http://localhost:3000',
-  optionsSuccessStatus:200
+  optionsSuccessStatus:200,
 }
 
 app.use(cors(corsOptions));
@@ -49,6 +49,16 @@ const server = app.listen(
   PORT,
   console.log(`server is running on port ${PORT}`)
 );
+
+const io = require('./socket').init(server,{
+  cors: {
+    origin:'http://localhost:3000'
+  }
+});
+console.log('Socket IO');
+io.on('connection',socket =>{
+   console.log('Client Connected');
+});
 
 // handle unhandled rejection
 

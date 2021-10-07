@@ -3,7 +3,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
 const { body, validationResult } = require("express-validator");
 
-exports.authenticate = asyncHandler(async (req, res, next) => {
+const authenticate = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -29,7 +29,7 @@ exports.authenticate = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.register = asyncHandler(async (req, res, next) => {
+const register = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -44,7 +44,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.validate = (method) => {
+const validate = (method) => {
   switch (method) {
     case "register": {
       return [
@@ -119,3 +119,9 @@ const validatePassword = () => {
       `Password should be of min five chracters and should contain atleast one lower case, one upper case,one special chracter and one symbol`
     );
 };
+
+module.exports={
+  authenticate,
+  register,
+  validate
+}
