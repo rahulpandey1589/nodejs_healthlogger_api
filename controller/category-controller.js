@@ -3,11 +3,13 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
 const io = require("../socket");
 
+
 exports.addCategory = asyncHandler(async (req, res, next) => {
   console.log(req.body);
   let response = await CategoryModel.create(req.body);
 
-  io.getIO().emit("category", { action: "addCategory", category: response });
+  io.getIO().emit("category", { action: "addCategory", data: response });
+
   res.status(201).json({
     success: true,
     message: "Category Added!!!",

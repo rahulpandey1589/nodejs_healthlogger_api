@@ -50,11 +50,7 @@ const server = app.listen(
   console.log(`server is running on port ${PORT}`)
 );
 
-const io = require('./socket').init(server,{
-  cors: {
-    origin:'http://localhost:3000'
-  }
-});
+const io = require('./socket').init(server);
 console.log('Socket IO');
 io.on('connection',socket =>{
    console.log('Client Connected');
