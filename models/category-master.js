@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CategorySchema = new mongoose.Schema({
+const CategoryMasterSchema = new mongoose.Schema({
   category_name: {
     type: String,
     required: [true, "Category Name is required."],
@@ -24,7 +24,7 @@ const CategorySchema = new mongoose.Schema({
   },
 });
 
-CategorySchema.statics.findCategory = async function (categoryId) {
+CategoryMasterSchema.statics.findCategory = async function (categoryId) {
   return this.findById({ _id: categoryId }).select({
     category_name: 1,
     description: 1,
@@ -32,4 +32,4 @@ CategorySchema.statics.findCategory = async function (categoryId) {
   });
 };
 
-module.exports = mongoose.model("Category", CategorySchema);
+module.exports = mongoose.model("CategoryMaster", CategoryMasterSchema);

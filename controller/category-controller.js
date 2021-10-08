@@ -1,8 +1,7 @@
-const CategoryModel = require("../models/category");
+const CategoryModel = require("../models/category-master");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
 const io = require("../socket");
-
 
 exports.addCategory = asyncHandler(async (req, res, next) => {
   console.log(req.body);

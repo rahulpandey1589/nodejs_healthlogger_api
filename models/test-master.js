@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const CategorySchema = require("./category");
+const CategorySchema = require("./category-master");
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require("../middleware/asyncHandler");
 
-const TestSchema = new mongoose.Schema({
+const TestMasterSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -26,11 +26,11 @@ const TestSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  categoryId: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+  categoryId: { type: Schema.Types.ObjectId, ref: 'CategoryMaster' }
 });
 
-TestSchema.statics.validateCategoryDetails = asyncHandler(async function (categoryId) {
+TestMasterSchema.statics.validateCategoryDetails = asyncHandler(async function (categoryId) {
   return await CategorySchema.find({_id:categoryId});
 });
 
-module.exports = mongoose.model("Test", TestSchema);
+module.exports = mongoose.model("TestMaster", TestMasterSchema);
