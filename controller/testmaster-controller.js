@@ -1,7 +1,6 @@
 const TestMasterModel = require("../models/test-master");
 const TestDetailModel = require("../models/test-details");
 
-
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
 
@@ -19,7 +18,7 @@ exports.addTest = asyncHandler(async (req, res, next) => {
     title: title,
     description: description,
     price: price,
-    categoryId: categoryId
+    categoryId: categoryId,
   });
 
   res.status(200).json({
@@ -72,7 +71,6 @@ exports.updateTest = asyncHandler(async (req, res, next) => {
     next(new ErrorResponse(`Category data not found`, 404));
     return;
   }
-
   res.status(200).json({
     success: true,
     message: "Data Updated!!!",
@@ -84,11 +82,13 @@ exports.deleteById = asyncHandler(async (req, res, next) => {
 
   let testData = await TestMasterModel.findById(id);
   if (!testData) {
-    next(new ErrorResponse(`The Test Id ${id} doesn't exists in database.`, 404));
+    next(
+      new ErrorResponse(`The Test Id ${id} doesn't exists in database.`, 404)
+    );
     return;
   }
 
-  await TestMasterModel.deleteOne({id:id});
+  await TestMasterModel.deleteOne({ id: id });
 
   res.status(200).json({
     success: true,

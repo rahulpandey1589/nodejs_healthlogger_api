@@ -12,7 +12,7 @@ connectDB();
 const auth_route = require('./routes/auth-route');
 const user_route = require('./routes/user-route');
 const category_route = require('./routes/category-route');
-const test_route = require('./routes/test-route');
+const test_route = require('./routes/test-master');
 
 
 const errorHandler = require("./middleware/error");
