@@ -9,7 +9,7 @@ exports.getUser = asyncHandler(async(req,res,next) =>{
    if(!userData){
        next(new ErrorResponse(`No user detail found against Id ${id}`),404);
    }
-
+q
    res.status(200).json({
        success:true,
        message:'Data Found!!!',
