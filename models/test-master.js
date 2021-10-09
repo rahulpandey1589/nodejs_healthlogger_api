@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const CategorySchema = require("./category-master");
-const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require("../middleware/asyncHandler");
 
 const TestMasterSchema = new mongoose.Schema({

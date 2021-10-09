@@ -1,25 +1,11 @@
 const TestMasterModel = require("../models/test-master");
 const TestDetailModel = require("../models/test-details");
 
-const ErrorResponse = require("../utils/errorResponse");
+const {ErrorResponseWithData} = require("../utils/api-response");
 const asyncHandler = require("../middleware/asyncHandler");
 
 exports.addTest = asyncHandler(async (req, res, next) => {
-  const { title, description, price, categoryId } = req.body;
-
-  // let data = await TestMasterModel.validateCategoryDetails(categoryId);
-  // console.log(data);
-  // if (!data) {
-  //   next(new ErrorResponse(`Category data not found`, 404));
-  //   return;
-  // }
-
-  let testDetails = await TestMasterModel.create({
-    title: title,
-    description: description,
-    price: price,
-    categoryId: categoryId,
-  });
+  let testDetails = await TestMasterModel.create(req.body);
 
   res.status(200).json({
     success: true,
@@ -31,7 +17,7 @@ exports.addTest = asyncHandler(async (req, res, next) => {
 exports.findAll = asyncHandler(async (req, res, next) => {
   var testDetails = await TestMasterModel.find();
   if (!testDetails) {
-    next(new ErrorResponse("No Test found!!!", 404));
+   ErrorResponseWithData(res,"No Test found!!!", 404,'No Data Found');
     return;
   }
 
@@ -46,7 +32,10 @@ exports.findById = asyncHandler(async (req, res, next) => {
   let id = req.params.id;
   let data = await TestMasterModel.findById(id);
   if (!data) {
-    next(new ErrorResponse(`No Test Found against id ${id}`, 404));
+    let errorData={
+      'msg':`No data found against id ${id}`
+    }
+    ErrorResponseWithData(res,"No Test found!!!", 404,errorData);
     return;
   }
 
@@ -62,13 +51,13 @@ exports.updateTest = asyncHandler(async (req, res, next) => {
 
   let testData = await TestMasterModel.findById(id);
   if (!testData) {
-    next(new ErrorResponse(`Invalid Test Id supplied`, 404));
+   // next(new ErrorResponse(`Invalid Test Id supplied`, 404));
     return;
   }
 
   let categoryData = await TestMasterModel.validateCategoryDetails(categoryId);
   if (!categoryData) {
-    next(new ErrorResponse(`Category data not found`, 404));
+    //next(new ErrorResponse(`Category data not found`, 404));
     return;
   }
   res.status(200).json({
@@ -82,9 +71,9 @@ exports.deleteById = asyncHandler(async (req, res, next) => {
 
   let testData = await TestMasterModel.findById(id);
   if (!testData) {
-    next(
-      new ErrorResponse(`The Test Id ${id} doesn't exists in database.`, 404)
-    );
+    //next(
+      //new ErrorResponse(`The Test Id ${id} doesn't exists in database.`, 404)
+    ///);
     return;
   }
 

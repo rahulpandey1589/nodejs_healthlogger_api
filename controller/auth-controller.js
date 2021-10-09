@@ -1,7 +1,10 @@
 const UserModel = require("../models/user");
-const ErrorResponse = require("../utils/errorResponse");
+//const ErrorResponse = require("../utils/errorResponse");
+const { ErrorResponseWithData } = require("../utils/api-response");
+
 const asyncHandler = require("../middleware/asyncHandler");
 const { body, validationResult } = require("express-validator");
+const { success } = require("../utils/api-response");
 
 const authenticate = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
@@ -15,17 +18,21 @@ const authenticate = asyncHandler(async (req, res, next) => {
   let user = await UserModel.findOne({ username }).select("password");
   const isMatch = await user.matchPassword(password);
   if (!isMatch) {
-    return next(new ErrorResponse("Invalid Credentials", 404));
+    let errorData = {
+      msg: "Invalid Username or password supplied",
+    };
+    return next(
+      ErrorResponseWithData(res, "Invalid Credentials", 400, errorData)
+    );
   }
 
   if (user != null) {
     const token = user.getSignedJwtToken();
-    res.status(200).json({
-      success: true,
-      message: "User Authenticated!!!",
+    let response = {
       token: token,
       expiresIn: 3600,
-    });
+    };
+    success(res, "User Authenticated", 200, response);
   }
 });
 
@@ -55,9 +62,7 @@ const validate = (method) => {
       ];
     }
     case "authenticate": {
-      return [
-        valideUserName(false)
-      ]
+      return [valideUserName(false)];
     }
   }
 };
@@ -77,8 +82,7 @@ const valideUserName = (registerNew) => {
               "The provided email address is already in use."
             );
           }
-        }
-        else{
+        } else {
           if (user.length === 0) {
             return Promise.reject(
               `The supplied email address doesn't exists in our DB`
@@ -120,8 +124,8 @@ const validatePassword = () => {
     );
 };
 
-module.exports={
+module.exports = {
   authenticate,
   register,
-  validate
-}
+  validate,
+};

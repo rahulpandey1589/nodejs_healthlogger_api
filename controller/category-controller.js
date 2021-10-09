@@ -1,5 +1,5 @@
 const CategoryModel = require("../models/category-master");
-const ErrorResponse = require("../utils/errorResponse");
+//const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/asyncHandler");
 const io = require("../socket");
 
