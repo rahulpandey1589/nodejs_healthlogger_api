@@ -64,9 +64,8 @@ const validate = (method) => {
     case "register": {
       return [
         valideUserName(true),
-        validateFirstName(),
-        validateLastName(),
         validatePassword(),
+        validateConfirmPassword()
       ];
     }
     case "authenticate": {
@@ -77,8 +76,6 @@ const validate = (method) => {
 
 const valideUserName = (registerNew) => {
   return body("username")
-    .exists()
-    .withMessage("UserName is mandatory")
     .isEmail()
     .withMessage(`Username must have a valid email address.`)
     .custom((value) => {
@@ -101,22 +98,6 @@ const valideUserName = (registerNew) => {
     });
 };
 
-const validateFirstName = () => {
-  return body("first_name")
-    .exists()
-    .withMessage("First Name is mandatory")
-    .isLength({ min: 1, max: 50 })
-    .withMessage("First Name should be between 1 to 50 characters.");
-};
-
-const validateLastName = () => {
-  return body("last_name")
-    .exists()
-    .withMessage("Last Name is mandatory")
-    .isLength({ min: 1, max: 50 })
-    .withMessage("Last Name should be between 1 to 50 characters.");
-};
-
 const validatePassword = () => {
   return body("password")
     .exists()
@@ -131,6 +112,18 @@ const validatePassword = () => {
       `Password should be of min five chracters and should contain atleast one lower case, one upper case,one special chracter and one symbol`
     );
 };
+
+const validateConfirmPassword = () =>{
+  return body('confirmPassword')
+  .exists()
+  .withMessage('Cofirm Password is Mandatory')
+  .custom(async (confirmPassword,{req}) =>{
+    var password = req.body.password;
+    if(password !== confirmPassword){
+       throw new Error('Password and Confirm Password should be same.')
+    }
+  })
+}
 
 module.exports = {
   authenticate,
