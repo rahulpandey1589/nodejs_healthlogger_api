@@ -4,7 +4,6 @@ const successResponse = (res, msg, status, data) => {
     message: msg,
     response: data,
   };
-
   return res.status(status).json(responseData);
 };
 
@@ -19,21 +18,21 @@ const errorResponse= (res,msg,status)=>{
 const errorResponseWithData = (res, msg, status, data) => {
   let objectKeys = Object.keys(data);
 
-  let respinse = objectKeys.map((value) => {
+  let errorData = objectKeys.map((value) => {
     return { "msg": data[value] };
   });
 
   let errorData = {
     success: false,
     message: msg,
-    errors: respinse,
+    errors: errorData
   };
 
   return res.status(status).json(errorData);
 };
 
 module.exports = {
-  success: successResponse,
-  ErrorResponseWithData: errorResponseWithData,
+  SuccessResponse:successResponse,
+  ErrorResponseWithData:errorResponseWithData,
   ErrorResponse:errorResponse
 };
