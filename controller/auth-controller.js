@@ -1,10 +1,11 @@
 const UserModel = require("../models/user");
-//const ErrorResponse = require("../utils/errorResponse");
-const { ErrorResponseWithData } = require("../utils/api-response");
+const {
+  ErrorResponseWithData,
+  SuccessResponse,
+} = require("../utils/api-response");
 
 const asyncHandler = require("../middleware/asyncHandler");
 const { body, validationResult } = require("express-validator");
-const { success } = require("../utils/api-response");
 
 const authenticate = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
@@ -15,15 +16,20 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
   const { username, password } = req.body;
 
-  let user = await UserModel.findOne({ username }).select("password");
+  let user = await UserModel.findOne({ username: username }).select({
+    password: 1,
+    role: 1,
+    first_name: 1,
+    last_name:1
+  });
+
   const isMatch = await user.matchPassword(password);
   if (!isMatch) {
     let errorData = {
       msg: "Invalid Username or password supplied",
     };
-    return next(
-      ErrorResponseWithData(res, "Invalid Credentials", 400, errorData)
-    );
+    console.log("Wrong Data");
+    ErrorResponseWithData(res, "Invalid Credentials", 400, errorData);
   }
 
   if (user != null) {
@@ -31,8 +37,10 @@ const authenticate = asyncHandler(async (req, res, next) => {
     let response = {
       token: token,
       expiresIn: 3600,
+      displayName: user.fullname,
+      role: user.role,
     };
-    success(res, "User Authenticated", 200, response);
+    SuccessResponse(res, "User Authenticated", 200, response);
   }
 });
 

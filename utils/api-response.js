@@ -25,7 +25,7 @@ const errorResponseWithData = (res, msg, status, data) => {
   let errorResponse = {
     success: false,
     message: msg,
-    errors: errorResponse
+    errors: errorData
   };
 
   return res.status(status).json(errorResponse);

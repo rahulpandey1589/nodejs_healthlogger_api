@@ -69,4 +69,10 @@ UserSchema.statics.findUser = async function (emailId) {
    });
 };
 
+UserSchema.virtual('fullname').get(function(){
+  return `${this.first_name} ${this.last_name}`;
+});
+
+
+
 module.exports = mongoose.model("User", UserSchema);
