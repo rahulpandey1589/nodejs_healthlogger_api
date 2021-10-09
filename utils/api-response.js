@@ -22,13 +22,13 @@ const errorResponseWithData = (res, msg, status, data) => {
     return { "msg": data[value] };
   });
 
-  let errorData = {
+  let errorResponse = {
     success: false,
     message: msg,
-    errors: errorData
+    errors: errorResponse
   };
 
-  return res.status(status).json(errorData);
+  return res.status(status).json(errorResponse);
 };
 
 module.exports = {
