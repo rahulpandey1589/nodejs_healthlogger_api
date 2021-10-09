@@ -13,7 +13,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
     res.status(400).json({ errors: errors.array() });
     return;
   }
-
+  
   const { username, password } = req.body;
 
   let user = await UserModel.findOne({ username: username }).select({
