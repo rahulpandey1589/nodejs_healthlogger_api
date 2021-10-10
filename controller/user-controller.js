@@ -3,9 +3,9 @@ const UserModel = require("../models/user");
 const { ErrorResponseWithData } = require("../utils/api-response");
 
 exports.getUser = asyncHandler(async (req, res, next) => {
-  let email = req.query.username;
+  let userId = req.query.id;
 
-  let userData = await UserModel.findUser(email);
+  let userData = await UserModel.findById(userId);
   if (!userData) {
     let errorData = {
       msg: `No user detail found against Id ${id}`,
