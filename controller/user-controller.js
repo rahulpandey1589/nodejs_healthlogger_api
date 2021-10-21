@@ -2,7 +2,7 @@ const asyncHandler = require("../middleware/asyncHandler");
 const UserModel = require("../models/user");
 const { ErrorResponseWithData } = require("../utils/api-response");
 
-exports.getUser = asyncHandler(async (req, res, next) => {
+const getUser = asyncHandler(async (req, res, next) => {
   let userId = req.query.id;
 
   let userData = await UserModel.findById(userId);
@@ -19,3 +19,26 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     data: userData,
   });
 });
+
+const updateUser = asyncHandler(async (req, res, next) => {
+  const { first_name, last_name, dob, id, gender } = req.body;
+  let updatedUserObj = {
+    first_name: first_name,
+    last_name: last_name,
+    date_of_birth: dob,
+    gender: gender,
+  };
+
+  let userData = await UserModel.findByIdAndUpdate(id, updatedUserObj,);
+  if (!userData) {
+    let errorData = {
+      msg: `No user detail found against Id ${id}`,
+    };
+    ErrorResponseWithData(res, "Invalid User", 404, errorData);
+  }
+});
+
+module.exports = {
+  getUser,
+  updateUser,
+};
