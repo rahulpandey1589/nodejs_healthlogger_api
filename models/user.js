@@ -27,6 +27,13 @@ const UserSchema = new mongoose.Schema({
     minlength: [8, "Password should be atleast 8 chracters long"],
     select: false,
   },
+  date_of_birth:{
+    type:Date
+  },
+  gender:{
+    type:String,
+    enum:["Male","Female"]
+  },
   role: {
     type: String,
     default: "user",
@@ -59,18 +66,18 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 UserSchema.statics.findUser = async function (emailId) {
-   return this.find({username:emailId}).select({
-       username:1,
-       first_name:1,
-       last_name:1,
-       role:1
-   });
+  return this.find({ username: emailId }).select({
+    username: 1,
+    first_name: 1,
+    last_name: 1,
+    role: 1,
+  });
 };
 
-UserSchema.virtual('fullname').get(function(){
-  return `${this.first_name} ${this.last_name}`;
+UserSchema.virtual("fullname").get(function () {
+  if (this.first_name !== undefined) {
+    return `${this.first_name} ${this.last_name}`;
+  }
 });
-
-
 
 module.exports = mongoose.model("User", UserSchema);
