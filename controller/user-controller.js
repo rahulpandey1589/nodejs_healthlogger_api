@@ -21,10 +21,10 @@ const getUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
-  const { first_name, last_name, dob, id, gender } = req.body;
+  const { firstname, lastname, dob, id, gender } = req.body;
   let updatedUserObj = {
-    first_name: first_name,
-    last_name: last_name,
+    first_name: firstname,
+    last_name: lastname,
     date_of_birth: dob,
     gender: gender,
   };
@@ -36,6 +36,12 @@ const updateUser = asyncHandler(async (req, res, next) => {
     };
     ErrorResponseWithData(res, "Invalid User", 404, errorData);
   }
+
+  res.status(200).json({
+    success: true,
+    message: "Data Updated!!!",
+    data: userData,
+  });
 });
 
 module.exports = {
