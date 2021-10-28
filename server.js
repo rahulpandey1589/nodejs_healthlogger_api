@@ -3,9 +3,13 @@ const dotenv = require('dotenv');
 const morgan = require("morgan");
 const connectDB = require("./config/db");
 const cors  = require('cors');
+const path = require('path')
 
+dotenv.config({
+  path: path.resolve(__dirname, process.env.NODE_ENV.trimEnd()+'.env')
+});
 
-dotenv.config({ path: "./config/config.env" });
+//dotenv.config({ path: "./config/config.env" });
 
 connectDB();
 

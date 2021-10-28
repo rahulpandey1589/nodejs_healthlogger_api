@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "start": "set NODE_ENV=production && node server",
+    "dev": "nodemon -r dotenv/config  .env.production server",
+    "development":"set NODE_ENV=development && nodemon server"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.8",
     "morgan": "^1.10.0",
+    "path": "^0.12.7",
     "socket.io": "^4.2.0"
   },
   "devDependencies": {
