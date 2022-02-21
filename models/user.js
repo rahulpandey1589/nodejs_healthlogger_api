@@ -7,11 +7,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     maxlength: [50, "First Name should not be greater than 50"],
     trim: true,
+    default:""
   },
   last_name: {
     type: String,
     maxlength: [50, "Last Name should not be greater than 50"],
     trim: true,
+    default:""
   },
   username: {
     type: String,
