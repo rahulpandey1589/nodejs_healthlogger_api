@@ -12,5 +12,3 @@ RUN npm install
 COPY . ./
 EXPOSE  $PORT
 ENTRYPOINT [ "npm","start" ]
-
-
