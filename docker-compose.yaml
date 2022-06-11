@@ -1,0 +1,18 @@
+version: "2"
+services:
+  nodeapi:
+    build: .
+    container_name: nodehealthlogger-api
+    restart: always
+    ports:
+      - "1158:1158"
+    links:
+      - mongo-db
+
+  mongo-db:
+    container_name: mongo-health-logger
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+
