@@ -2,7 +2,7 @@ version: "2"
 services:
   nodeapi:
     build: .
-    container_name: nodehealthlogger-api
+    container_name: nodejs-api
     restart: always
     ports:
       - "1158:1158"
@@ -14,5 +14,12 @@ services:
     image: mongo:latest
     ports:
       - "27017:27017"
+
+  react-frontend:
+    container_name: react-frontend
+    image: rahulpandey1589/react-frontend:1.1.1
+    ports:
+      - "3000:3000"
+
 
 
