@@ -29,6 +29,8 @@ const updateUser = asyncHandler(async (req, res, next) => {
     gender: gender,
   };
 
+console.log(JSON.stringify(updatedUserObj));
+
   let userData = await UserModel.findByIdAndUpdate(id, updatedUserObj,);
   if (!userData) {
     let errorData = {
