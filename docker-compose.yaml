@@ -6,21 +6,22 @@ services:
     restart: always
     ports:
       - "1158:1158"
+    environment:
+      - MONGO_URI='mongodb://mongo-db:27017/health_logger?retryWrites=true&w=majority'
     links:
       - mongo-db
-
   mongo-db:
     container_name: mongo-health-logger
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
-      - mongodata:/data/db
+      - healthlogger-data:/data/db
   react-frontend:
     container_name: react-frontend
     image: rahulpandey1589/react-frontend:1.1.1
     ports:
       - "3000:3000"
 volumes:
-    mongodata:
+    healthlogger-data:
 
