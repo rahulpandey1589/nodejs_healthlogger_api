@@ -12,6 +12,11 @@ console.log(process.env.NODE_ENV);
 
 connectDB();
 
+
+
+
+
+
 const auth_route = require('./routes/auth-route');
 const user_route = require('./routes/user-route');
 const category_route = require('./routes/category-route');
